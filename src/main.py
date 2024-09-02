@@ -8,7 +8,11 @@ from ui import UIManager
 from level import create_level
 
 def main():
-    app = Ursina()
+    app = Ursina(
+        development_mode=True,
+        borderless=False,
+        fullscreen=False
+    )
     create_level()
 
     stateMachine = StateMachine()
@@ -16,7 +20,6 @@ def main():
 
     Player(stateMachine = stateMachine, uiManager=uiManager, position=(0, 1.5, 0))
 
-    window.fullscreen = True
     app.run()
 
 if __name__ == "__main__":

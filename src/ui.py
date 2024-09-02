@@ -77,6 +77,8 @@ class UIManager:
         Updates the UI based on the player's current state.
         This method should be called every frame to ensure the UI is up-to-date.
         """
+
+        print(window.size.y)
         health_percentage = self.state_machine.player_health / self.state_machine.max_health
         self.health_bar.scale_x = health_percentage * 0.4
 
