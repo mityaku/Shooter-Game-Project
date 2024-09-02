@@ -63,7 +63,6 @@ class Player(Entity):
         if self.state_machine.game_state != GameState.PLAYING and not self.test:
             return
 
-        self.state_machine.heal(-0.1)
         self.handle_movement()
         self.apply_gravity()
         self.jump()

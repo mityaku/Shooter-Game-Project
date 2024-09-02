@@ -9,8 +9,8 @@ from src.state import StateMachine
 
 class UIManager:
     """
-    Singleton class responsible for managing and updating the game's UI elements,
-    such as the health bar, based on the current state of the game.
+    Singleton class responsible for managing and updating the game's UI elements, 
+    based on the current state of the game.
     """
     _instance = None  # Holds the singleton instance of UIManager
 
@@ -49,13 +49,37 @@ class UIManager:
             origin=(0, 0)
         )
 
+        skull_icon_texture = load_texture('../assets/images/Kills.png')
+        self.skull_icon = Entity(
+            parent=camera.ui,
+            model='quad',
+            texture=skull_icon_texture,
+            scale=(0.04, 0.05), 
+            position=(-0.05, -0.39),
+            origin=(0, 0)
+        )
+
+        # Create the kill count text entity
+        self.kill_count_text = Text(
+            text=f'{self.state_machine.kills}', 
+            font= '../assets/fonts/primary.ttf',
+            parent=camera.ui,
+            scale=1,  
+            position=(0, -0.39), 
+            origin=(0, 0),
+            color=color.rgb(0.6, 0.6, 0.6)  # Darker gray color
+        )
+
         print("UIManager initialized with StateMachine")
 
     def update(self) -> None:
         """
-        Updates the health bar based on the player's current health percentage.
+        Updates the UI based on the player's current state.
         This method should be called every frame to ensure the UI is up-to-date.
         """
         health_percentage = self.state_machine.player_health / self.state_machine.max_health
         self.health_bar.scale_x = health_percentage * 0.4
+
+        self.kill_count_text.text = f'Kills: {self.state_machine.kills}'
+
         print(f"UIManager: Health bar updated to {health_percentage * 100:.2f}%")
