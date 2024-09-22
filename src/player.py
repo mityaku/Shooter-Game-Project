@@ -18,7 +18,7 @@ class Player(Entity):
     for game state management and UI updates.
     """
 
-    def __init__(self, stateMachine: StateMachine, uiManager: UIManager, test: bool = False, **kwargs):
+    def __init__(self, stateMachine: StateMachine, uiManager: UIManager, on_death=None, test: bool = False, **kwargs):
         """
         Initializes the Player entity with movement and state management capabilities.
 
@@ -35,6 +35,9 @@ class Player(Entity):
             collider='box',
             **kwargs
         )
+        self.state_machine = stateMachine
+        self.ui_manager = uiManager
+        self.on_death = on_death
         self.test = test
         self.state_machine: StateMachine = stateMachine
         self.ui_manager: UIManager = uiManager
@@ -45,6 +48,7 @@ class Player(Entity):
         self.velocity: Vec3 = Vec3(0, 0, 0)
         self.grounded: bool = False
         self.friction: float = 5
+        self.health = 0
 
         self.camera_pivot: Entity = Entity(parent=self, y=1)
         camera.parent = self.camera_pivot
@@ -68,6 +72,8 @@ class Player(Entity):
         self.jump()
         self.apply_friction()
 
+        
+
         # Update camera rotation based on mouse movement
         self.camera_pivot.rotation_y += mouse.velocity[0] * 2000 * time.dt
         self.camera_pivot.rotation_x -= mouse.velocity[1] * 1700 * time.dt
@@ -83,6 +89,34 @@ class Player(Entity):
 
         # Update UI elements
         self.ui_manager.update()
+
+        if self.state_machine.player_health <= 0:
+            self.die()
+
+    def take_damage(self, amount):
+        """
+        Reduces the player's health by the specified amount and checks for death.
+
+        Args:
+            amount (int): The amount of damage to apply to the player.
+        """
+        self.state_machine.player_health -= amount
+        print(f"Player health: {self.state_machine.player_health}/{self.state_machine.max_health}")
+
+        if self.state_machine.player_health <= 0:
+            self.die()
+
+    def die(self):
+        print("Player died!")
+        self.state_machine.game_state = GameState.GAME_OVER
+
+        # Disable player controls and visibility instead of destroying
+        self.disable()
+
+        # Call the on_death callback if it exists
+        if self.on_death:
+            self.on_death()
+
 
     def handle_movement(self) -> None:
         """

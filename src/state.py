@@ -10,7 +10,7 @@ from src.enums.player_state import PlayerState
 
 class StateMachine:
     """
-    Singleton class that manages the game's state, including the player's health,
+    Singleton class that manages the game's state, including the player's health, 
     kills, and the overall game state. It ensures that only one instance of 
     StateMachine exists and provides methods to modify the game state.
     """
@@ -29,7 +29,7 @@ class StateMachine:
             cls._instance.init_state_machine()
         return cls._instance
 
-    def init_state_machine(self) -> None:
+    def init_state_machine(self, player=None) -> None:
         """
         Initializes the StateMachine with default values for the player's state, health,
         kills, and the overall game state.
@@ -39,6 +39,7 @@ class StateMachine:
         self.max_health: int = 100
         self.kills: int = 0
         self.game_state: GameState = GameState.PLAYING
+        self.player = player
 
     def change_state(self, new_state: PlayerState) -> None:
         """
@@ -110,7 +111,7 @@ class StateMachine:
         restoring health to maximum, resetting the kill count, and setting the 
         game state to PLAYING.
         """
-        self.state = PlayerState.IDLE
+        self.state = PlayerState.ALIVE
         self.player_health = self.max_health
         self.kills = 0
         self.game_state = GameState.PLAYING

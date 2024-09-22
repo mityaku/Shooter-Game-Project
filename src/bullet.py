@@ -18,15 +18,19 @@ class Bullet(Entity):
             **kwargs: Additional arguments passed to the Entity constructor.
         """
         super().__init__(
-            model=Cylinder(6, start=-.5),  
-            color=color.red,               
-            scale=0.1,                     
-            position=position,             
+            model='sphere',  # Or your bullet model
+            color=color.red,
+            scale=0.1,
+            position=position,
+            collider='box',  # Or 'sphere' depending on your bullet shape
             **kwargs
         )
+
         self.direction = direction.normalized()  # Normalize the direction vector
         self.speed = speed  # Set the speed of the bullet
         self.emission_color = color.red  # Set the emission color of the bullet
+        self.damage = 10
+        self.playerBullet = True
 
     def update(self) -> None:
         """
