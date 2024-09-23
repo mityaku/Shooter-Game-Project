@@ -67,11 +67,16 @@ def main():
 
     def on_enemy_death(enemy):
         nonlocal enemies, wave_number
-        enemies.remove(enemy)
+        if enemy in enemies:
+            enemies.remove(enemy)
+        else:
+            print("Enemy not in enemies list.")
+
         # Check if all enemies are dead
         if not enemies:
             wave_number += 1
             start_wave()
+
 
     def on_player_death():
         # Handle game over logic

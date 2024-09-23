@@ -95,7 +95,7 @@ class UIManager(Entity):
         # Game Title
         self.title = Text(
             font='../assets/fonts/primary.ttf',
-            text='Your Game Title',
+            text='Shooter Game',
             parent=self.start_screen,
             origin=(0, 0),
             scale=2,

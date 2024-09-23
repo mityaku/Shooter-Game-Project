@@ -64,6 +64,7 @@ class Enemy(Entity):
         
         if not self.player or not self.player.enabled:
             # Player is dead or doesn't exist; skip enemy actions
+            destroy(self)
             return
 
         # Calculate the direction towards the player, ignoring Y-axis
@@ -211,6 +212,12 @@ class EnemyBullet(Entity):
         """
         Updates the bullet's position every frame and checks for collision with the player.
         """
+        
+        if not self.player or not self.player.enabled:
+            # Player is dead or doesn't exist; skip enemy actions
+            destroy(self)
+            return
+        
         self.position += self.direction * self.speed * time.dt
 
         # Destroy the bullet if it moves too far from the player
