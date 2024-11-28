@@ -26,16 +26,16 @@ class Enemy(Entity):
             **kwargs: Additional arguments passed to the Entity constructor.
         """
         super().__init__(
-            model=load_model('../assets/models/untitled.fbx'),  # Replace with your enemy model path
-            texture=load_texture('../assets/images/drone_d.png'),  # Replace with your enemy texture path
+            model=load_model('../assets/models/untitled.fbx'), 
+            texture=load_texture('../assets/images/drone_d.png'),
             collider='box',
-            scale=random.randint(3,12)/1000,
+            scale=0.0002,
             **kwargs
         )
         self.player = player
         self.state_machine = StateMachine()
         self.speed = random.randint(4, 12)  # Movement speed towards the player
-        self.hover_height = random.randint(2,5)  # The height at which the enemy hovers
+        self.hover_height = random.randint(4,8)  # The height at which the enemy hovers
         self.friction = random.randint(1,3)/10  # Low friction for hovering effect
         self.velocity = Vec3(0, 0, 0)
         self.shoot_distance = 15.0  # Distance at which the enemy starts shooting

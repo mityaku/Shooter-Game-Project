@@ -1,42 +1,30 @@
 import sys
 import time
-
 import unittest
-
 from unittest.mock import patch, MagicMock
 from ursina import *
-
 from src.player import Player
 from src.state import StateMachine
 from src.ui import UIManager
+from src.enums.game_state import GameState
 
 class TestPlayer(unittest.TestCase):
-    """
-    Unit test class for testing the Player class in a game environment. 
-    This class uses unittest framework and mocks external dependencies such as Gun, StateMachine, and UIManager.
-    """
-
     @classmethod
     def setUpClass(cls) -> None:
-        """
-        Sets up the class-level test fixtures. Mocks Ursina's app to prevent it from creating a window during tests.
-        This method is called once before any tests are run.
-        """
-        with patch('ursina.Ursina'):
-            cls.app = MagicMock()
+        from ursina import Ursina
+        cls.app = Ursina()
+        cls.app.development_mode = False
 
     def setUp(self) -> None:
-        """
-        Sets up the test environment before each test. Mocks the Gun, StateMachine, and UIManager classes,
-        and initializes a Player instance with these mocks.
-        """
-        # Mock the Gun, StateMachine, and UIManager classes
         with patch('src.player.Gun', MagicMock()):
             with patch('src.state.StateMachine', MagicMock()) as MockStateMachine:
                 with patch('src.ui.UIManager', MagicMock()) as MockUIManager:
-                    # Create mock instances for StateMachine and UIManager
                     self.mock_state_machine = MockStateMachine()
                     self.mock_ui_manager = MockUIManager()
+
+                    # Set necessary attributes on the mock state machine
+                    self.mock_state_machine.player_health = 100
+                    self.mock_state_machine.game_state = GameState.PLAYING
 
                     # Instantiate the Player with mocked dependencies
                     self.player = Player(
@@ -45,16 +33,15 @@ class TestPlayer(unittest.TestCase):
                         test=True
                     )
 
+        # Initialize mouse and held_keys
+        from ursina import mouse, held_keys
+        mouse.velocity = Vec2(0, 0)
+        held_keys['left mouse'] = False
+
     def test_initial_velocity(self) -> None:
-        """
-        Tests that the player's initial velocity is set to (0, 0, 0).
-        """
         self.assertEqual(self.player.velocity, Vec3(0, 0, 0))
 
     def test_movement(self) -> None:
-        """
-        Tests the player's movement logic by applying a velocity and checking if the player's position changes.
-        """
         initial_position = self.player.position
 
         # Apply a velocity to the player

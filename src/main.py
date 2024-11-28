@@ -38,8 +38,8 @@ def main():
 
         # Create new player
         player = Player(
-            stateMachine=state_machine,  # Changed from state_machine to stateMachine
-            uiManager=ui_manager,        # Changed from ui_manager to uiManager
+            stateMachine=state_machine,
+            uiManager=ui_manager,
             position=(0, 1.5, 0),
             on_death=on_player_death
         )

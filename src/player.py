@@ -75,8 +75,8 @@ class Player(Entity):
         
 
         # Update camera rotation based on mouse movement
-        self.camera_pivot.rotation_y += mouse.velocity[0] * 2000 * time.dt
-        self.camera_pivot.rotation_x -= mouse.velocity[1] * 1700 * time.dt
+        self.camera_pivot.rotation_y += mouse.velocity[0] * 6000 * time.dt
+        self.camera_pivot.rotation_x -= mouse.velocity[1] * 6000 * time.dt
         self.camera_pivot.rotation_x = clamp(self.camera_pivot.rotation_x, -80, 80)
 
         # Update gun's rotation based on the camera's current rotation
