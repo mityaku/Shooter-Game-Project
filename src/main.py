@@ -10,7 +10,9 @@ from level import create_level
 from src.enums.game_state import GameState
 
 def main():
-    app = Ursina()
+    app = Ursina(
+        fullscreen=True
+    )
 
     state_machine = StateMachine()
     ui_manager = UIManager(state_machine=state_machine)
@@ -30,6 +32,7 @@ def main():
 
         # Destroy old entities if they exist
         if player:
+        # destroys the player if the player is not active
             destroy(player)
             player = None
         for enemy in enemies:
@@ -43,8 +46,6 @@ def main():
             position=(0, 1.5, 0),
             on_death=on_player_death
         )
-
-        print(player)
 
         # Start the first wave
         start_wave()

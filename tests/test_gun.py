@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch, MagicMock
-import time  # Standard library time
+import time
 from ursina import Vec3, camera
 from ursina import time as ursina_time
 from ursina import Ursina

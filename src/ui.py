@@ -175,29 +175,13 @@ class UIManager(Entity):
         # Change the game state to PLAYING
         self.state_machine.game_state = GameState.PLAYING
         # Make HUD elements visible
-        self.health_bar.visible = True
-        self.skull_icon.visible = True
-        self.kill_count_text.visible = True
+        # self.health_bar.visible = True
+        # self.skull_icon.visible = True
+        # self.kill_count_text.visible = True
 
         # Call the start_game_callback to initialize game entities
         if self.start_game_callback:
             self.start_game_callback()
-
-    def show_game_over_screen(self, player_kills):
-        """
-        Displays the game over screen with the player's kills.
-
-        Args:
-            player_kills (int): The number of kills the player achieved.
-        """
-        # Update the kills text
-        self.kills_text.text = f'Kills: {player_kills}'
-        # Enable the game over screen
-        self.game_over_screen.enable()
-        # Hide HUD elements
-        self.health_bar.visible = False
-        self.skull_icon.visible = False
-        self.kill_count_text.visible = False
 
     def restart_game(self):
         """
@@ -235,11 +219,10 @@ class UIManager(Entity):
             # Hide start and game over screens, show HUD
             self.start_screen.disable()
             self.game_over_screen.disable()
+
             self.health_bar.visible = True
             self.skull_icon.visible = True
             self.kill_count_text.visible = True
-
-            # Update HUD elements
             health_percentage = self.state_machine.player_health / self.state_machine.max_health
             self.health_bar.scale_x = health_percentage * 0.4
 

@@ -22,14 +22,12 @@ class Gun(Entity):
         """
         super().__init__(**kwargs)  # Initialize with the parent provided by the Player class
         self.model = load_model('../assets/models/pistol.obj')
-        self._double_sided = False
-        self.double_sided_setter(False)
         self.color_texture = load_texture('../assets/images/pistol/color.png')
 
         self.texture = self.color_texture
-
+        
         # Position and rotation offsets relative to the camera
-        self.position_offset = Vec3(0.6, 0.3, 0.6)
+        self.position_offset = Vec3(0.6, 0.5, 0.6)
         self.rotation_offset = Vec3(-3, 0, 0)
 
         self.scale = 0.4  # Adjust scale to fit the player's hand

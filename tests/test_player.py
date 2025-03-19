@@ -22,18 +22,15 @@ class TestPlayer(unittest.TestCase):
                     self.mock_state_machine = MockStateMachine()
                     self.mock_ui_manager = MockUIManager()
 
-                    # Set necessary attributes on the mock state machine
                     self.mock_state_machine.player_health = 100
                     self.mock_state_machine.game_state = GameState.PLAYING
 
-                    # Instantiate the Player with mocked dependencies
                     self.player = Player(
                         stateMachine=self.mock_state_machine, 
                         uiManager=self.mock_ui_manager, 
                         test=True
                     )
 
-        # Initialize mouse and held_keys
         from ursina import mouse, held_keys
         mouse.velocity = Vec2(0, 0)
         held_keys['left mouse'] = False
@@ -44,18 +41,14 @@ class TestPlayer(unittest.TestCase):
     def test_movement(self) -> None:
         initial_position = self.player.position
 
-        # Apply a velocity to the player
         self.player.velocity = Vec3(5, 0, 0)
 
-        # Manually set time.dt to simulate a time step (simulate 60 FPS)
         time.dt = 1 / 60  
 
-        # Run the game loop for a short time to simulate movement
         for i in range(10):
             self.player.update()
             print(f"Frame {i}: Player Position: {self.player.position}, Velocity: {self.player.velocity}")
 
-        # Check that the player's position has changed
         self.assertNotEqual(self.player.position, initial_position)
 
 if __name__ == '__main__':
